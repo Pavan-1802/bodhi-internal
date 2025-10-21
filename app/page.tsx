@@ -34,7 +34,6 @@ export default function Enquiries() {
     fetchEnquiries();
   }, []);
 
-  // Filtering logic remains the same
   const filteredEnquiries = enquiries.filter((enquiry) => {
     const matchesSearch =
       enquiry.customer_name
@@ -52,7 +51,6 @@ export default function Enquiries() {
     return matchesSearch && enquiry.status === filterStatus;
   });
   
-  // All handler functions (handleEdit, handleCreate, etc.) remain the same...
   const handleEditEnquiry = (enquiry: Enquiry) => setSelectedEnquiry(enquiry);
   const handleCreateEnquiry = () => { /* ... */ };
   const handleDeleteEnquiry = async (id: number) => { /* ... */ };
@@ -94,7 +92,7 @@ export default function Enquiries() {
           <div className="sm:w-48">
             <select
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as any)}
+              onChange={(e) => setFilterStatus(e.target.value as "all" | "pending" | "prepared")}
               className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Statuses</option>
@@ -126,7 +124,7 @@ export default function Enquiries() {
                 No Enquiries Found
               </h3>
               <p className="mt-1 text-sm text-gray-500">
-                Try adjusting your search or filter to find what you're looking for.
+                Try adjusting your search or filter to find what you are looking for.
               </p>
             </div>
           )}

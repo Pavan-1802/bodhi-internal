@@ -50,9 +50,8 @@ export default function QuotationPage({
         setItems(data.items);
         setCustomer(data.customer);
         setAdditionalCosts(data.additional_costs || []);
-      } catch (error: any) {
-        toast.error(error.message);
-        console.error("Error fetching quotation:", error);
+      } catch (error) {
+        console.error("Error fetching quotation");
       } finally {
         setLoading(false);
       }
@@ -115,9 +114,8 @@ export default function QuotationPage({
         toast.success("Quotation updated successfully!");
         window.print();
 
-    } catch (error: any) {
-        toast.error(error.message);
-        console.error("Error during print/update:", error);
+    } catch (error) {
+        console.error("Error during print");
     }
   };
 
