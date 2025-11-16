@@ -27,17 +27,17 @@ const AdditionalCostsTable = ({ costs, showSettings, onAdd, onChange, onDelete }
         <table className="w-full text-sm">
           <tbody>
             {costs.map((cost, index) => (
-              <tr key={index} className="border-b last:border-b-0">
+              <tr key={index}>
                 <td className="py-2 pr-4">
                   {showSettings ? (
-                    <input type="text" value={cost.description} onChange={(e) => onChange(index, "description", e.target.value)} placeholder="Cost description" className="w-full bg-transparent border-b focus:outline-none focus:border-blue-500"/>
+                    <input type="text" value={cost.description} onChange={(e) => onChange(index, "description", e.target.value)} placeholder="Cost description" className="w-full bg-transparent focus:outline-none focus:border-blue-500"/>
                   ) : (
                     cost.description
                   )}
                 </td>
                 <td className="py-2 w-32 text-right">
                   {showSettings ? (
-                    <input type="number" value={cost.amount} onChange={(e) => onChange(index, "amount", parseFloat(e.target.value) || 0)} className="w-24 text-right bg-transparent border-b focus:outline-none focus:border-blue-500"/>
+                    <input type="number" value={cost.amount} onChange={(e) => onChange(index, "amount", parseFloat(e.target.value) || 0)} className="w-24 text-right bg-transparent focus:outline-none focus:border-blue-500"/>
                   ) : (
                     `₹${cost.amount.toFixed(2)}`
                   )}

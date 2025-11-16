@@ -2,6 +2,7 @@ export interface Enquiry {
     id: number;
     customer_name: string;
     customer_phone: string;
+    customer_address: string;
     description: string;
     deadline: string;
     status: string;
@@ -34,4 +35,5 @@ export interface AdditionalCost {
 export interface Customer {
   customer_name: string;
   customer_phone: string;
+  customer_address: string;
 }

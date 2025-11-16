@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { Enquiry } from "@/types";
 
-export default function EnquiryForm({ enquiry, onClose, onSubmit }: { enquiry: Enquiry, onClose: () => void, onSubmit: (data: { customer_name: string; customer_phone: string; description: string; deadline: string; status: string }) => void }) {
-    const [customerName, setCustomerName] = useState('');
+export default function EnquiryForm({ enquiry, onClose, onSubmit }: { enquiry: Enquiry, onClose: () => void, onSubmit: (data: { customer_name: string; customer_phone: string; customer_address: string; description: string; deadline: string; status: string }) => void }) {
+    const [customerName, setCustomerName] = useState(enquiry.customer_name || '');
     const [customerPhone, setCustomerPhone] = useState(enquiry.customer_phone || '');
+    const [customerAddress, setCustomerAddress] = useState(enquiry.customer_address || '');
     const [description, setDescription] = useState('');
     const [deadline, setDeadline] = useState(enquiry.deadline || '');
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -12,6 +13,7 @@ export default function EnquiryForm({ enquiry, onClose, onSubmit }: { enquiry: E
         onSubmit({
             customer_name: customerName,
             customer_phone: customerPhone,
+            customer_address: customerAddress,
             description: description,
             deadline: deadline,
             status: enquiry.status || 'pending'
@@ -21,6 +23,7 @@ export default function EnquiryForm({ enquiry, onClose, onSubmit }: { enquiry: E
         if (enquiry) {
             console.log(JSON.stringify(enquiry));
             setCustomerName(enquiry.customer_name);
+            setCustomerAddress(enquiry.customer_address);
             setDescription(enquiry.description);
             const formattedDeadline = enquiry.deadline ? new Date(enquiry.deadline).toISOString().split('T')[0] : '';
             setDeadline(formattedDeadline);
@@ -69,6 +72,21 @@ export default function EnquiryForm({ enquiry, onClose, onSubmit }: { enquiry: E
                                 className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 transition-colors"
                             />
                         </div>
+                    </div>
+
+                    <div>
+                        <label htmlFor="customerAddress" className="block text-sm font-medium text-gray-700 mb-1">
+                            Customer Address
+                        </label>
+                        <textarea
+                            id="customerAddress"
+                            placeholder="Enter customer address"
+                            value={customerAddress}
+                            onChange={(e) => setCustomerAddress(e.target.value)}
+                            required
+                            rows={3}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900 transition-colors resize-none"
+                        />
                     </div>
 
 

@@ -17,6 +17,7 @@ export default function QuotationPage({
   const [editingProfit, setEditingProfit] = useState<number | null>(null);
   const [customerName, setCustomerName] = useState<string | null>(null);
   const [customerPhone, setCustomerPhone] = useState<string | null>(null);
+  const [customerAddress, setCustomerAddress] = useState<string | null>(null);
   const [showSettings, setShowSettings] = useState(false);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -34,6 +35,7 @@ export default function QuotationPage({
       setItems(data.items);
       setCustomerName(data.customer_name);
       setCustomerPhone(data.customer_phone);
+      setCustomerAddress(data.customer_address);
       if (data.items.length === 0) {
         toast.error("No items found in this quotation.");
         router.back();
@@ -167,6 +169,7 @@ export default function QuotationPage({
               <div className="text-sm text-gray-800">
                 <p>{customerName}</p>
                 <p>Phone: +91 {customerPhone}</p>
+                <p>Address: {customerAddress}</p>
               </div>
             </div>
 
@@ -353,18 +356,6 @@ export default function QuotationPage({
               >
                 Print Quotation
               </button>
-              {/* <button
-                onClick={handleSubmit}
-                className="px-6 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition-colors"
-              >
-                Submit Quotation
-              </button> */}
-              {/* <button
-                onClick={openModal}
-                className="px-6 py-2 bg-red-600 text-white font-medium rounded hover:bg-red-700 transition-colors"
-              >
-                Delete Quotation
-              </button> */}
             </div>
           </div>
         </div>

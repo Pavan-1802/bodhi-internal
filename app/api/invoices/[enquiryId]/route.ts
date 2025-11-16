@@ -5,15 +5,16 @@ export async function GET(request: NextRequest, { params }: { params: { enquiryI
   const enquiryId = params.enquiryId;
 
   try {
-    const invoice = await pool.query("SELECT * FROM invoices WHERE id = $1", [enquiryId]);
+    const invoice = await pool.query("SELECT * FROM invoices WHERE enquiry_id = $1", [enquiryId]);
     const items = await pool.query(
     "SELECT id, item_name, profit_percent, tax_percent, quantity, total_cost FROM costings WHERE enquiry_id=$1",
     [enquiryId]
     );
   const customer = await pool.query(
-    "SELECT customer_name, customer_phone FROM enquiries WHERE id=$1",
+    "SELECT customer_name, customer_phone, customer_address FROM enquiries WHERE id=$1",
     [enquiryId]
   );
+    console.log(invoice.rows[0])
     return NextResponse.json({ invoice: invoice.rows[0], items: items.rows, customer: customer.rows[0] }, { status: 200 });
   } catch (error) {
     console.error("Error fetching invoice:", error);
@@ -25,6 +26,7 @@ export async function PATCH (request: NextRequest, { params }: { params: { enqui
   const enquiryId = params.enquiryId;
   const body = await request.json();
   const { additionalCosts } = body;
+  console.log(JSON.stringify(additionalCosts))
   try {
     const result = await pool.query(
       "UPDATE invoices SET additional_costs=$1 WHERE id=$2 RETURNING *",

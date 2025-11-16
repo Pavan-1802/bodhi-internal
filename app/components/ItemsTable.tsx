@@ -29,7 +29,7 @@ const ItemsTable = ({ items, showSettings, onItemChange }: ItemsTableProps) => {
             <tbody className="divide-y divide-gray-200 bg-white">
               {items.map((item, index) => {
                 const costWithProfit = (item.total_cost || 0) * (1 + (item.profit_percent || 0) / 100);
-                const pricePerUnit = costWithProfit; // Unit price is now pre-tax
+                const pricePerUnit = costWithProfit;
                 const lineTotal = pricePerUnit * (item.quantity || 0) * (1 + (item.tax_percent || 0) / 100);
 
                 return (

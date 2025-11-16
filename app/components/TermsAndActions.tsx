@@ -1,8 +1,9 @@
 interface TermsAndActionsProps {
   onPrint: () => void;
+  buttonDisabled: boolean
 }
 
-const TermsAndActions = ({ onPrint }: TermsAndActionsProps) => {
+const TermsAndActions = ({ onPrint, buttonDisabled }: TermsAndActionsProps) => {
   return (
     <div className="mt-12 pt-8 border-t border-gray-100">
       <div className="mb-10">
@@ -20,7 +21,8 @@ const TermsAndActions = ({ onPrint }: TermsAndActionsProps) => {
       <div className="mt-12 text-center print:hidden">
         <button
           onClick={onPrint}
-          className="px-8 py-2.5 bg-blue-600 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+          disabled={buttonDisabled}
+          className="px-8 py-2.5 bg-blue-600 disabled:cursor-not-allowed disabled:bg-gray-700 text-white font-semibold rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
         >
           Save & Print Invoice
         </button>

@@ -7,6 +7,7 @@ import ConfirmationModal from "./components/ConfirmationModal";
 import LoadingSpinner from "./components/LoadingSpinner";
 import Navbar from "./components/Navbar";
 import { Plus, Search, FileX } from "lucide-react";
+import toast from "react-hot-toast";
 
 export default function Enquiries() {
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
@@ -36,25 +37,87 @@ export default function Enquiries() {
 
   const filteredEnquiries = enquiries.filter((enquiry) => {
     const matchesSearch =
-      enquiry.customer_name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
-      (enquiry.customer_phone &&
-        enquiry.customer_phone.includes(searchTerm)) ||
-      enquiry.description
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
+      enquiry.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (enquiry.customer_phone && enquiry.customer_phone.includes(searchTerm)) ||
+      enquiry.description.toLowerCase().includes(searchTerm.toLowerCase());
 
     if (filterStatus === "all") {
       return matchesSearch;
     }
     return matchesSearch && enquiry.status === filterStatus;
   });
-  
+
   const handleEditEnquiry = (enquiry: Enquiry) => setSelectedEnquiry(enquiry);
-  const handleCreateEnquiry = () => { /* ... */ };
-  const handleDeleteEnquiry = async (id: number) => { /* ... */ };
-  const handleSubmitEnquiry = async (enquiryData: Omit<Enquiry, 'id' | 'created_at'>) => { /* ... */ };
+
+  const handleCreateEnquiry = () => {
+    setSelectedEnquiry({
+      id: 0,
+      customer_name: "",
+      customer_phone: "",
+      customer_address: "",
+      description: "",
+      deadline: new Date().toISOString().split("T")[0], // Default to today
+      created_at: new Date().toISOString(),
+      status: "pending",
+    });
+  };
+
+  const handleDeleteEnquiry = async (id: number) => {
+    const originalEnquiries = enquiries;
+    setEnquiries(enquiries.filter((e) => e.id !== id));
+    setEnquiryToDelete(null);
+
+    try {
+      const response = await fetch(`/api/enquiries/`, {
+        method: "DELETE",
+        body: JSON.stringify({ id }),
+      });
+      if (!response.ok) {
+        setEnquiries(originalEnquiries);
+      }
+    } catch (error) {
+      toast.error("Could not delete enquiries");
+      console.error("Failed to delete enquiry:", error);
+      setEnquiries(originalEnquiries);
+    }
+  };
+  
+  const handleSubmitEnquiry = async (
+    enquiryData: Omit<Enquiry, "id" | "created_at">
+  ) => {
+    setLoading(true);
+    const isNew = selectedEnquiry?.id === 0;
+
+    try {
+      const response = await fetch("/api/enquiries", {
+        method: isNew ? "POST" : "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...enquiryData,
+          id: isNew ? undefined : selectedEnquiry?.id,
+        }),
+      });
+
+      if (response.ok) {
+        const updatedEnquiry = await response.json();
+        if (isNew) {
+          setEnquiries((prev) => [updatedEnquiry, ...prev]);
+        } else {
+          setEnquiries((prev) =>
+            prev.map((e) => (e.id === updatedEnquiry.id ? updatedEnquiry : e))
+          );
+        }
+        setSelectedEnquiry(null);
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save enquiry:", errorData.error);
+      }
+    } catch (error) {
+      console.error("Error saving enquiry:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -62,7 +125,9 @@ export default function Enquiries() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Enquiries</h1>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">
+              Enquiries
+            </h1>
             <p className="mt-1 text-sm text-gray-500">
               Manage and track all customer enquiries from one place.
             </p>
@@ -92,7 +157,11 @@ export default function Enquiries() {
           <div className="sm:w-48">
             <select
               value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as "all" | "pending" | "prepared")}
+              onChange={(e) =>
+                setFilterStatus(
+                  e.target.value as "all" | "pending" | "prepared"
+                )
+              }
               className="block w-full px-3 py-2 border border-gray-300 rounded-md bg-white focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">All Statuses</option>
@@ -102,7 +171,6 @@ export default function Enquiries() {
           </div>
         </div>
 
-        {/* --- NEW LAYOUT: Replaces the entire <table> structure --- */}
         <div className="mt-6">
           {loading ? (
             <LoadingSpinner />
@@ -124,7 +192,8 @@ export default function Enquiries() {
                 No Enquiries Found
               </h3>
               <p className="mt-1 text-sm text-gray-500">
-                Try adjusting your search or filter to find what you are looking for.
+                Try adjusting your search or filter to find what you are looking
+                for.
               </p>
             </div>
           )}

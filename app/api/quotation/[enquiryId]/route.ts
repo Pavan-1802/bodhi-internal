@@ -9,11 +9,11 @@ export async function GET(request: NextRequest, { params }: { params: { enquiryI
     [enquiryId]
   );
   const customer = await pool.query(
-    "SELECT customer_name, customer_phone FROM enquiries WHERE id=$1",
+    "SELECT customer_name, customer_phone, customer_address FROM enquiries WHERE id=$1",
     [enquiryId]
   );
   console.log("Customer Info:", customer.rows[0].customer_name, customer.rows[0].customer_phone);
-  return NextResponse.json({ items: quotation.rows, customer_name: customer.rows[0].customer_name, customer_phone: customer.rows[0].customer_phone }, { status: 200 });
+  return NextResponse.json({ items: quotation.rows, customer_name: customer.rows[0].customer_name, customer_phone: customer.rows[0].customer_phone, customer_address: customer.rows[0].customer_address }, { status: 200 });
 }
 
 export async function PUT(request: NextRequest, { params }: { params: { enquiryId: string } }) {

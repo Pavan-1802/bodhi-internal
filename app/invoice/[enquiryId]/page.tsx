@@ -30,6 +30,7 @@ export default function QuotationPage({
   ]);
   const [showSettings, setShowSettings] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false)
 
   useEffect(() => {
     const fetchQuotation = async () => {
@@ -46,7 +47,7 @@ export default function QuotationPage({
           router.back();
           return;
         }
-
+        console.log(JSON.stringify(data))
         setItems(data.items);
         setCustomer(data.customer);
         setAdditionalCosts(data.additional_costs || []);
@@ -88,6 +89,8 @@ export default function QuotationPage({
   };
   
   const handlePrint = async () => {
+    setShowSettings(false)
+    setSubmitLoading(true)
     try {
         const itemsUpdateResponse = await fetch(`/api/quotation/${enquiryId}`, {
             method: "PUT",
@@ -97,6 +100,7 @@ export default function QuotationPage({
 
         if (!itemsUpdateResponse.ok) {
             const error = await itemsUpdateResponse.json();
+            setSubmitLoading(false)
             throw new Error(error.message || "Failed to update quotation items.");
         }
 
@@ -110,10 +114,9 @@ export default function QuotationPage({
             const error = await costsUpdateResponse.json();
             throw new Error(error.message || "Failed to update additional costs.");
         }
-        
         toast.success("Quotation updated successfully!");
+        setSubmitLoading(false)
         window.print();
-
     } catch (error) {
         console.error("Error during print");
     }
@@ -183,7 +186,7 @@ export default function QuotationPage({
               grandTotal={grandTotal}
             />
 
-            <TermsAndActions onPrint={handlePrint} />
+            <TermsAndActions onPrint={handlePrint} buttonDisabled={submitLoading}/>
           </div>
         </div>
       </main>

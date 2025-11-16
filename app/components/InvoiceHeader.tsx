@@ -15,7 +15,6 @@ const InvoiceHeader = ({ enquiryId, customer }: InvoiceHeaderProps) => {
   return (
     <header className="pb-8 border-b-2 border-gray-100">
       <div className="flex justify-between items-start">
-        {/* Left Side: Invoice Title and Details */}
         <div>
           <h1 className="text-3xl font-bold text-gray-800">INVOICE</h1>
           <div className="mt-4 text-sm text-gray-500 space-y-1">
@@ -23,7 +22,6 @@ const InvoiceHeader = ({ enquiryId, customer }: InvoiceHeaderProps) => {
             <p>Invoice No: <span className="font-medium text-gray-700">INV-{enquiryId}</span></p>
           </div>
         </div>
-        {/* Right Side: Company Logo and Details */}
         <div className="text-right">
           <img src="/logo.png" alt="Company Logo" className="h-14 w-auto ml-auto" />
           <div className="mt-2 text-xs text-gray-500">
@@ -34,12 +32,12 @@ const InvoiceHeader = ({ enquiryId, customer }: InvoiceHeaderProps) => {
           </div>
         </div>
       </div>
-      {/* Customer Information */}
       <div className="mt-10">
         <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Billed To</h3>
         <div className="text-sm text-gray-800">
           <p className="font-medium">{customer?.customer_name}</p>
           <p>+91 {customer?.customer_phone}</p>
+          <p>{customer?.customer_address}</p>
         </div>
       </div>
     </header>
