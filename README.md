@@ -1,36 +1,107 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bodhi Owner
+
+Bodhi Owner is a web application built using [Next.js](https://nextjs.org), designed to streamline the management of enquiries, costings, invoices, and quotations. This project leverages modern web development practices and tools to deliver a seamless user experience.
+
+## Features
+
+- **Enquiry Management**: Create, view, and manage enquiries efficiently.
+- **Costing System**: Add and manage additional costs for enquiries.
+- **Invoice Generation**: Generate and view invoices for specific enquiries.
+- **Quotation Management**: Create and manage quotations linked to enquiries.
+- **Authentication**: Secure login and logout functionality.
+- **Responsive Design**: Optimized for various screen sizes.
+
+## Project Structure
+
+The project follows a modular structure for better scalability and maintainability. Below is an overview of the key directories:
+
+- **`app/`**: Contains the main application pages and API routes.
+  - `api/`: Backend API routes for handling enquiries, costings, invoices, and more.
+  - `components/`: Reusable UI components such as tables, modals, and forms.
+  - `costings/`, `invoice/`, `quotation/`, `login/`: Frontend pages for respective features.
+- **`lib/`**: Utility libraries, including database configurations.
+- **`public/`**: Static assets like images and fonts.
 
 ## Getting Started
 
-First, run the development server:
+Follow these steps to set up and run the project locally:
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+- [Node.js](https://nodejs.org/) (v16 or higher recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+
+### Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/Pavan-1802/bodhi-internal.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd bodhi-owner
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+### Running the Development Server
+
+Start the development server:
 
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To build the application for production:
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+Start the production server:
+
+```bash
+npm start
+# or
+yarn start
+```
+
+## Environment Variables
+
+Create a `.env.local` file in the root directory and configure the following environment variables:
+
+```env
+DATABASE_URL=your_database_url
+NEXTAUTH_SECRET=your_secret_key
+```
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+To learn more about the technologies used in this project, check out the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs): Learn about Next.js features and API.
+- [React Documentation](https://reactjs.org/): Learn about React, the library used for building the UI.
+- [Vercel Deployment](https://vercel.com/docs): Learn how to deploy your Next.js app on Vercel.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contributions are welcome! If you'd like to contribute, please fork the repository and submit a pull request.
