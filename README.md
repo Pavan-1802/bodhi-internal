@@ -90,8 +90,10 @@ yarn start
 Create a `.env.local` file in the root directory and configure the following environment variables:
 
 ```env
-DATABASE_URL=your_database_url
-NEXTAUTH_SECRET=your_secret_key
+DATABASE_URL
+OWNER_EMAIL
+OWNER_PASSWORD
+JWT_SECRET
 ```
 
 ## Learn More
